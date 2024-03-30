@@ -1,5 +1,9 @@
 package com.zipcodewilmington.singlylinkedlist;
 
+import jdk.internal.org.objectweb.asm.tree.analysis.SourceInterpreter;
+
+import java.util.Comparator;
+
 /**
  * Created by leon on 1/10/18.
  */
@@ -95,6 +99,88 @@ public class SinglyLinkedList<T> {
             }
         }
         return size;
+    }
+
+    public T get(int index) {
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
+    }
+
+    public SinglyLinkedList<T> copy() {
+        SinglyLinkedList<T> newList = new SinglyLinkedList<>();
+        Node<T> current = head;
+
+        while(current != null) {
+            newList.add(current.data);
+            current = current.next;
+        }
+        return newList;
+    }
+
+    public void sort(Comparator<T> comparator) {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        boolean swapped;
+        Node<T> last = null;
+        do {
+            swapped = false;
+            Node<T> current = head;
+            Node<T> previous = null;
+
+            while (current.next != last) {
+                if (comparator.compare(current.data, current.next.data) > 0) {
+                    Node<T> temp = current.next; // Swap current node with its next node
+                    current.next = temp.next;
+                    temp.next = current;
+
+                    if (previous == null) { // Update the pointers
+                        head = temp;
+                    } else {
+                        previous.next = temp;
+                    }
+                    previous = temp;
+                    swapped = true;
+
+                } else {
+                    previous = current;
+                    current = current.next;
+                }
+            }
+            last = current;
+        } while (swapped);
+    }
+
+    public void reverse() {
+        Node<T> current = head;
+        Node<T> prev = null;
+        Node<T> temp;
+
+        while (current != null) {
+            temp = current.next;
+            current.next = prev;
+
+            prev = current;
+            current = temp;
+        }
+        head = prev;
+    }
+
+    public SinglyLinkedList<T> sliced(int beginIndex, int endIndex) {
+        SinglyLinkedList<T> slicedList = new SinglyLinkedList<>();
+        Node<T> current = head;
+
+        for (int i = 0; i < endIndex; i++) {
+            if (i >= beginIndex) {
+                slicedList.add(current.data);
+            }
+            current = current.next;
+        }
+        return slicedList;
     }
 
     @Override

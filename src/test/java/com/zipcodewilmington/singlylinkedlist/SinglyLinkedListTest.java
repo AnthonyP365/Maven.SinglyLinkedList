@@ -3,6 +3,9 @@ package com.zipcodewilmington.singlylinkedlist;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Comparator;
+import java.util.LinkedList;
+
 /**
  * Created by leon on 1/10/18.
  */
@@ -94,17 +97,74 @@ public class SinglyLinkedListTest {
     }
 
     @Test
-    public void getTest() {}
+    public void getTest() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        Integer expectedGet = 2;
+        Integer actualGet = list.get(1);
+
+        Assert.assertEquals(expectedGet, actualGet);
+    }
 
     @Test
-    public void copyTest() {}
+    public void copyTest() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        String expectedList = "1 2 3";
+        String actualList = list.copy().toString();
+
+        Assert.assertEquals(expectedList, actualList);
+    }
 
     @Test
-    public void sortTest() {}
+    public void sortTest() {
+        Comparator<Integer> comparator = Comparator.naturalOrder();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.add(5);
+        list.add(9);
+        list.add(2);
+        list.add(7);
+        list.add(12);
+
+        list.sort(comparator);
+        String expectedList = "2 5 7 9 12";
+        String actualList = list.toString();
+
+        Assert.assertEquals(expectedList, actualList);
+    }
 
     @Test
-    public void reverseTest() {}
+    public void reverseTest() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        list.reverse();
+        String expectedList = "3 2 1";
+        String actualList = list.toString();
+
+        Assert.assertEquals(expectedList, actualList);
+    }
 
     @Test
-    public void sliceTest() {}
+    public void sliceTest() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        String expectedList = "2 3 4";
+        String actualList = list.sliced(1, 4).toString();
+
+        Assert.assertEquals(expectedList, actualList);
+    }
 }
